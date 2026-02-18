@@ -7,6 +7,7 @@
 #include <cmath>
 
 using namespace std;
+
 class Record
 {
 public:
