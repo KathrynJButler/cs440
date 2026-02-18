@@ -16,4 +16,3 @@ clean:
 clearScreen:
 	clear
 	clear
-
