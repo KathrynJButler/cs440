@@ -17,7 +17,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     // Create the index
-    cout << "Creating hash index from Employee.csv... ";
     HashIndex hashIndex("EmployeeIndex");
     hashIndex.createFromFile("Employee.csv");
     cout << "Done!" << endl;
