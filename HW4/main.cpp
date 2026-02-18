@@ -27,34 +27,29 @@ int main(int argc, char *argv[])
     int i = 1;
     for (i = 1; i < CLCount; i++)
     {
-        cout << "Search for argument" << i << ":" << endl;
+        // cout << "Debugging: Search for argument" << i << ":" << endl;
         searchID = stoi(argv[i]);
         hashIndex.findAndPrintEmployee(searchID);
         cout << "\n"
              << endl;
     }
-    /*
-    =====================================================================================
-    TO DO: Fix this portion for the searching feature :)
-    we got the command line search done already
-    =====================================================================================
-
-
-        string StrSearchID;
-        cout << "Enter the employee ID to find or type exit to terminate: ";
-        while (cin >> searchID && searchID != "exit") {
-            try{
+    string StrSearchID;
+    cout << "Enter the employee ID to find or type exit to terminate: ";
+    while (cin >> StrSearchID && StrSearchID != "exit")
+    {
+        try
+        {
             int64_t id = stoll(StrSearchID);
             string record;
-            cout << "Search for" << id << ":" << endl;
+            // cout << "Debugging: Search for " << id << ":" << endl;
             hashIndex.findAndPrintEmployee(id);
-            cout << "\n" << endl;
-            }
-            catch (const invalid_argument& e) {
-                cerr << "Invalid input. Please enter a valid employee ID or type exit to terminate." << endl;
-            }
         }
-    */
+        catch (const invalid_argument &e)
+        {
+            cerr << "Invalid input. Please enter a valid employee ID or type exit to terminate." << endl;
+        }
+        cout << endl << endl << "Enter the employee ID to find or type exit to terminate: ";
+    }
 
     // remove the EmployeeIndex file
     remove("EmployeeIndex");
