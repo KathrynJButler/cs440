@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
     // Create the index
     HashIndex hashIndex("EmployeeIndex");
-    hashIndex.createFromFile("Employee.csv");
+    hashIndex.createFromFile("Employee2.csv");
 
     // Loop to lookup IDs until user is ready to quit
     // command line arguments
@@ -46,5 +46,8 @@ we got the command line search done already
         }
     }
 */
+
+    // remove the EmployeeIndex file
+    remove("EmployeeIndex");
     return 0;
 }
