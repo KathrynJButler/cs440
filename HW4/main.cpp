@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
     // Create the index
     HashIndex hashIndex("EmployeeIndex");
-    hashIndex.createFromFile("Employee2.csv");
+    hashIndex.createFromFile("Employee.csv");
 
     // Loop to lookup IDs until user is ready to quit
     // command line arguments
