@@ -124,7 +124,7 @@ public:
             int offset = 0; // Start offset after the overflow pointer index
             if (!slot_directory.empty())
             {
-// cout << "DEBUG: Enters here" << endl;
+                // cout << "DEBUG: Enters here" << endl;
                 offset = slot_directory.back().first + slot_directory.back().second; // Calculate offset based on last record's offset and size
             }
             slot_directory.push_back(make_pair(offset, record_size));
@@ -154,7 +154,6 @@ public:
         int overflow_position = 4096 - sizeof(int);
         int slot_count_position = overflow_position - sizeof(int);
         int directory_offset = slot_count_position;
-
 
         for (int i = slot_directory.size() - 1; i >= 0; i--)
         {
@@ -187,7 +186,7 @@ public:
             // clear to avoid segfault
             records.clear();
             slot_directory.clear();
-            
+
             int overflow_position = 4096 - sizeof(int);
             int slotCountPosition = overflow_position - sizeof(int);
 
@@ -197,7 +196,8 @@ public:
             memcpy(&slotCount, page_data + slotCountPosition, sizeof(int));
 
             // treat invalid slotcount as empty page for segfault
-            if (slotCount <= 0 || slotCount > 4096 / (2 * (int)sizeof(int))) {
+            if (slotCount <= 0 || slotCount > 4096 / (2 * (int)sizeof(int)))
+            {
                 return false;
             }
 
@@ -245,12 +245,12 @@ private:
     // Function to compute hash value for a given ID
     int compute_hash_value(int id)
     {
-// cout << "Debugging: Computing hash value for ID: " << id << endl;
+        // cout << "Debugging: Computing hash value for ID: " << id << endl;
         int hash_value;
 
         // TODO: Implement the hash function h = id mod 2^8
         hash_value = id % 256;
-// cout << "Debugging: Computed hash value: " << hash_value << endl;
+        // cout << "Debugging: Computed hash value: " << hash_value << endl;
         return hash_value;
     }
 
@@ -258,31 +258,31 @@ private:
     void addRecordToIndex(int pageIndex, Page &page, Record &record)
     {
         cout << "Opening index file: " << fileName << endl;
-    {
-        ofstream create(fileName, ios::binary | ios::app);
-    }
+        {
+            ofstream create(fileName, ios::binary | ios::app);
+        }
         fstream indexFile(fileName, ios::binary | ios::in | ios::out);
-        if (!indexFile.is_open()) {
+        if (!indexFile.is_open())
+        {
             cerr << "Error: Unable to open index file" << endl;
             return;
         }
 
-indexFile.seekp(0, ios::end);
-long fileSize = indexFile.tellp();
+        indexFile.seekp(0, ios::end);
+        long fileSize = indexFile.tellp();
 
-long requiredSize = (pageIndex + 1) * Page_SIZE;
+        long requiredSize = (pageIndex + 1) * Page_SIZE;
 
-if (fileSize < requiredSize) {
-    // Extend file with zeros
-    indexFile.seekp(requiredSize - 1, ios::beg);
-    char zero = 0;
-    indexFile.write(&zero, 1);
-    indexFile.flush();
-}
+        if (fileSize < requiredSize)
+        {
+            // Extend file with zeros
+            indexFile.seekp(requiredSize - 1, ios::beg);
+            char zero = 0;
+            indexFile.write(&zero, 1);
+            indexFile.flush();
+        }
 
-
-// cout << "Index file opened successfully." << endl;
-
+        // cout << "Index file opened successfully." << endl;
 
         // TODO:
         // - Use seekp() to seek to the offset of the correct page in the index file
@@ -294,32 +294,32 @@ if (fileSize < requiredSize) {
         // Seek to the appropriate position in the index file
 
         int currentPageIndex = pageIndex;
-/* cout << "Debugging: Writing record " << record.id
-             << " to page " << currentPageIndex
-             << " at file offset "
-             << currentPageIndex * Page_SIZE
-             << endl;
-*/
+        /* cout << "Debugging: Writing record " << record.id
+                     << " to page " << currentPageIndex
+                     << " at file offset "
+                     << currentPageIndex * Page_SIZE
+                     << endl;
+        */
         while (true)
         {
             // seek to current page
             indexFile.seekg(currentPageIndex * Page_SIZE, ios::beg);
-// cout << "DEDBUG: reading page: " << currentPageIndex << endl;
+            // cout << "DEDBUG: reading page: " << currentPageIndex << endl;
 
             // read the page from the index file
             if (!page.read_from_data_file(indexFile)) // page is empty, initialize it
             {
                 page = Page();
-// cout << "DEBUG: read worked " << endl;
+                // cout << "DEBUG: read worked " << endl;
             }
-// cout << "DEBUG: inserting record into page " << endl;  
+            // cout << "DEBUG: inserting record into page " << endl;
             if (page.insert_record_into_page(record))
             {
-// cout << "DEBUG: insert worked " << endl;
+                // cout << "DEBUG: insert worked " << endl;
                 indexFile.seekp(currentPageIndex * Page_SIZE, ios::beg);
-// cout << "DEBUG: writing page to disk " << endl;
+                // cout << "DEBUG: writing page to disk " << endl;
                 page.write_into_data_file(indexFile);
-// cout << "DEBUG: writing worked" << endl;
+                // cout << "DEBUG: writing worked" << endl;
 
                 indexFile.flush();
 
@@ -328,11 +328,11 @@ if (fileSize < requiredSize) {
 
                 Page verifyPage;
                 verifyPage.read_from_data_file(indexFile);
-/*
-                cout << "Debugging: Page " << currentPageIndex
-                     << " now contains " << verifyPage.records.size()
-                     << " records." << endl;
-*/
+                /*
+                                cout << "Debugging: Page " << currentPageIndex
+                                     << " now contains " << verifyPage.records.size()
+                                     << " records." << endl;
+                */
                 for (auto &r : verifyPage.records)
                 {
                     cout << "  Found ID in page: " << r.id << endl;
@@ -368,11 +368,11 @@ if (fileSize < requiredSize) {
 
                     Page verifyPage;
                     verifyPage.read_from_data_file(indexFile);
-/*
-                    cout << "Debugging: Page " << currentPageIndex
-                         << " now contains " << verifyPage.records.size()
-                         << " records." << endl;
-*/
+                    /*
+                                        cout << "Debugging: Page " << currentPageIndex
+                                             << " now contains " << verifyPage.records.size()
+                                             << " records." << endl;
+                    */
                     for (auto &r : verifyPage.records)
                     {
                         cout << "  Found ID in page: " << r.id << endl;
@@ -388,7 +388,7 @@ if (fileSize < requiredSize) {
     // Function to search for a record by ID in a given page of the index file
     void searchRecordByIdInPage(int pageIndex, int id)
     {
-// cout << "Debugging: Searching for record with ID: " << id << " in page index: " << pageIndex << endl;
+        // cout << "Debugging: Searching for record with ID: " << id << " in page index: " << pageIndex << endl;
         // Open index file in binary mode for reading
         fstream indexFile(fileName, ios::binary | ios::in);
         if (!indexFile)
@@ -398,11 +398,11 @@ if (fileSize < requiredSize) {
         }
 
         int currentPageIndex = pageIndex;
-/* cout << "Debugging: Reading page " << currentPageIndex
-             << " from file offset "
-             << currentPageIndex * Page_SIZE
-             << endl;
-*/
+        /* cout << "Debugging: Reading page " << currentPageIndex
+                     << " from file offset "
+                     << currentPageIndex * Page_SIZE
+                     << endl;
+        */
         while (currentPageIndex != -1)
         {
             // Seek to the appropriate position in the index file
@@ -411,11 +411,11 @@ if (fileSize < requiredSize) {
             // Read the page from the index file
             Page page;
             page.read_from_data_file(indexFile);
-/*
-            cout << "Debugging: Page has "
-                 << page.records.size()
-                 << " records after reading." << endl;
-*/
+            /*
+                        cout << "Debugging: Page has "
+                             << page.records.size()
+                             << " records after reading." << endl;
+            */
             for (auto &r : page.records)
             {
                 cout << "  Record ID in page: " << r.id << endl;
@@ -448,7 +448,7 @@ public:
     // Function to create hash index from Employee CSV file
     void createFromFile(string csvFileName)
     {
-// cout << "Debugging: Creating hash index from file: " << csvFileName << endl;
+        // cout << "Debugging: Creating hash index from file: " << csvFileName << endl;
         // Read CSV file and add records to index
         // Open the CSV file for reading
         ifstream csvFile(csvFileName);
@@ -493,7 +493,7 @@ public:
     // Function to search for a record by ID in the hash index
     void findAndPrintEmployee(int id)
     {
-// cout << "Debugging: Searching for employee with ID: " << id << endl;
+        // cout << "Debugging: Searching for employee with ID: " << id << endl;
         // Open index file in binary mode for reading
         ifstream indexFile(fileName, ios::binary | ios::in);
 
