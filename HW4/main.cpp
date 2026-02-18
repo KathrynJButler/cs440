@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     // Create the index
     cout << "Creating hash index from Employee.csv (This may take around 3 minutes)... " << endl;
-    HashIndex hashIndex("EmployeeIndex");
+    HashIndex hashIndex("EmployeeIndex.dat");
     hashIndex.createFromFile("Employee.csv");
     cout << "Done!" << endl << endl;
 
