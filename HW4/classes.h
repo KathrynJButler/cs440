@@ -476,7 +476,7 @@ public:
     // Function to create hash index from Employee CSV file
     void createFromFile(string csvFileName)
     {
-// cout << "Debugging: Creating hash index from file: " << csvFileName << endl;
+cout << "Creating hash index from Employee.csv (This may take around 3 minutes)... " << endl;
         // Read CSV file and add records to index
         // Open the CSV file for reading
         ifstream csvFile(csvFileName);
