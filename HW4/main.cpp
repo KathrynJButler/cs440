@@ -17,8 +17,10 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     // Create the index
+    cout << "Creating hash index from Employee.csv... ";
     HashIndex hashIndex("EmployeeIndex");
-    hashIndex.createFromFile("Employee2.csv");
+    hashIndex.createFromFile("Employee.csv");
+    cout << "Done!" << endl;
 
     // Loop to lookup IDs until user is ready to quit
     // command line arguments
@@ -48,7 +50,9 @@ int main(int argc, char *argv[])
         {
             cerr << "Invalid input. Please enter a valid employee ID or type exit to terminate." << endl;
         }
-        cout << endl << endl << "Enter the employee ID to find or type exit to terminate: ";
+        cout << endl
+             << endl
+             << "Enter the employee ID to find or type exit to terminate: ";
     }
 
     // remove the EmployeeIndex file
